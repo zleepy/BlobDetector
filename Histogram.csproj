@@ -49,6 +49,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BitManipulator.cs" />
+    <Compile Include="Blob.cs" />
+    <Compile Include="BlobDetector.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
