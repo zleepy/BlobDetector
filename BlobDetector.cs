@@ -7,15 +7,10 @@ using System.Drawing;
 
 namespace Histogram
 {
-    public interface IBlobDetectionAlgoritm
-    {
-        IEnumerable<Blob> DetectBlobs(FastDirectImage img);
-    }
-
     /// <summary>
     /// http://geekblog.nl/entry/24
     /// </summary>
-    public class BlobDetector : IBlobDetectionAlgoritm
+    public class BlobDetector : IBlobDetectior
     {
         public IEnumerable<Blob> DetectBlobs(FastDirectImage img)
         {
