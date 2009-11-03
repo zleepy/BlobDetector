@@ -34,28 +34,26 @@ namespace Histogram
                 palette.Entries[i] = Color.FromArgb(i, i, i);
             result.NativeBitmap.Palette = palette;
 
-            int oIndex;
+            int oIndex = -img.Padding;
             int dIndex = -result.image.Padding;
             int dIndexNexLine;
             int r;
             int g;
             int b;
 
-            for (int y = 0; y < height; y++)
+            while (dIndex < (height * result.image.Stride - result.image.Padding))
+            //for (int y = 0; y < height; y++)
             {
-                oIndex = y * img.Stride;
+                oIndex += img.Padding;
                 dIndex += result.image.Padding;
                 dIndexNexLine = dIndex + result.image.Stride - result.image.Padding;
 
-                //for (int x = 0; x < width; x++)
                 while(dIndex < dIndexNexLine)
                 {
-                    //oIndex = y * img.Stride + x * img.PixelFormatSize;
                     r = img.Bits[oIndex];
                     g = img.Bits[oIndex + 1];
                     b = img.Bits[oIndex + 2];
 
-                    //oIndex = y * result.image.Stride + x * result.image.PixelFormatSize;
                     result.image.Bits[dIndex] = (byte)((b * 0.11) + (g * 0.59) + (r * 0.3));
                     
                     oIndex += img.PixelFormatSize;
