@@ -32,28 +32,35 @@ namespace Histogram
 
             int oIndex = -img.Padding;
             int dIndex = -result.image.Padding;
-            int dIndexNexLine;
+            int dIndexLineLenght = result.image.Stride - result.image.Padding;
+            int dIndexEoi = (height * result.image.Stride) - result.image.Padding;
+            int dIndexNextLine;
             int r;
             int g;
             int b;
-            int dIndexEoi = height * result.image.Stride - result.image.Padding;
+            
+            int imgPixelFormatSize = img.PixelFormatSize;
+            int resultPixelFormatSize = result.image.PixelFormatSize;
+            
+            byte[] imgBytes = img.Bits;
+            byte[] resultBytes = result.image.Bits;
 
             while (dIndex < dIndexEoi)
             {
                 oIndex += img.Padding;
                 dIndex += result.image.Padding;
-                dIndexNexLine = dIndex + result.image.Stride - result.image.Padding;
+                dIndexNextLine = dIndex + dIndexLineLenght;
 
-                while(dIndex < dIndexNexLine)
+                while(dIndex < dIndexNextLine)
                 {
-                    r = img.Bits[oIndex];
-                    g = img.Bits[oIndex + 1];
-                    b = img.Bits[oIndex + 2];
+                    r = imgBytes[oIndex];
+                    g = imgBytes[oIndex + 1];
+                    b = imgBytes[oIndex + 2];
 
-                    result.image.Bits[dIndex] = (byte)((b * 0.11) + (g * 0.59) + (r * 0.3));
-                    
-                    oIndex += img.PixelFormatSize;
-                    dIndex += result.image.PixelFormatSize;
+                    resultBytes[dIndex] = (byte)((b * 0.11) + (g * 0.59) + (r * 0.3));
+
+                    oIndex += imgPixelFormatSize;
+                    dIndex += resultPixelFormatSize;
                 }
             }
 
