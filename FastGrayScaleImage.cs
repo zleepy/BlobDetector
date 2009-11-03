@@ -28,11 +28,7 @@ namespace Histogram
 
             var result = new FastGrayScaleImage();
             result.image = FastDirectImage.Create(width, height, PixelFormat.Format8bppIndexed);
-
-            var palette = result.NativeBitmap.Palette;
-            for (int i = 0; i < 256; i++)
-                palette.Entries[i] = Color.FromArgb(i, i, i);
-            result.NativeBitmap.Palette = palette;
+            CreateGrayScalePalette(result.NativeBitmap);
 
             int oIndex = -img.Padding;
             int dIndex = -result.image.Padding;
@@ -40,9 +36,9 @@ namespace Histogram
             int r;
             int g;
             int b;
+            int dIndexEoi = height * result.image.Stride - result.image.Padding;
 
-            while (dIndex < (height * result.image.Stride - result.image.Padding))
-            //for (int y = 0; y < height; y++)
+            while (dIndex < dIndexEoi)
             {
                 oIndex += img.Padding;
                 dIndex += result.image.Padding;
@@ -62,6 +58,14 @@ namespace Histogram
             }
 
             return result;
+        }
+
+        private static void CreateGrayScalePalette(Image img)
+        {
+            var palette = img.Palette;
+            for (int i = 0; i < 256; i++)
+                palette.Entries[i] = Color.FromArgb(i, i, i);
+            img.Palette = palette;
         }
 
         public void Dispose()
