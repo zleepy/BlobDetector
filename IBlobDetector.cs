@@ -7,6 +7,6 @@ namespace Histogram
 {
     public interface IBlobDetectior
     {
-        IEnumerable<Blob> DetectBlobs(FastDirectImage img);
+        IEnumerable<Blob> DetectBlobs(IBrightnessImage img);
     }
 }

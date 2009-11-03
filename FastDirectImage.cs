@@ -8,7 +8,7 @@ using System.Drawing.Imaging;
 
 namespace Histogram
 {
-    public class FastDirectImage : IDisposable
+    public class FastDirectImage : IDisposable, IBrightnessImage
     {
         GCHandle handle;
         private byte[] bits;
@@ -81,8 +81,13 @@ namespace Histogram
             int index = y * Stride + x * PixelFormatSize;
             byte r = bits[index++];
             byte g = bits[index++];
-            byte b = bits[index++];
+            byte b = bits[index];
             return Color.FromArgb((int)r, (int)g, (int)b);
+        }
+
+        public float GetBrightness(int x, int y)
+        {
+            return GetPixel(x, y).GetBrightness();
         }
     }
 }

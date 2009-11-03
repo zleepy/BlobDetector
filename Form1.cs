@@ -26,17 +26,33 @@ namespace Histogram
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 Stopwatch totalTime = Stopwatch.StartNew();
-                originalPictureBox.Image = Image.FromFile(openFileDialog1.FileName);
-                totalTime.Stop();
-                Debug.WriteLine("Open image time: " + totalTime.Elapsed.TotalSeconds.ToString());
-
-                using (var image = FastDirectImage.FromImage(originalPictureBox.Image))
+                //originalPictureBox.Image = Image.FromFile(openFileDialog1.FileName);
+                using (var originalImage = Image.FromFile(openFileDialog1.FileName))
                 {
-                    UpdateVerticalHistogram(image);
-                    UpdateHorizontalHistogram(image);
+                    totalTime.Stop();
+                    Debug.WriteLine("Open image time: " + totalTime.Elapsed.TotalSeconds.ToString());
 
-                    var b = new BlobDetector();
-                    blobs = new List<Blob>(b.DetectBlobs(image));
+                    using (var image = FastDirectImage.FromImage(originalImage))
+                    {
+                        var conversionTime = Stopwatch.StartNew();
+                        var gsImage = FastGrayScaleImage.FromImage(image);
+                        originalPictureBox.Image = gsImage.NativeBitmap;
+                        //using (var gsImage = FastGrayScaleImage.FromImage(image))
+                        //{
+                        conversionTime.Stop();
+                        Console.WriteLine("Convertion to gray scale image: " + conversionTime.Elapsed.TotalSeconds.ToString());
+
+                        UpdateVerticalHistogram(image);
+                        UpdateHorizontalHistogram(image);
+
+                        var b = new BlobDetector();
+                        blobs = new List<Blob>(b.DetectBlobs(gsImage));
+
+                        var b2 = new BlobDetector2();
+                        b2.DetectBlobs(gsImage);
+                        //blobs = new List<Blob>(b.DetectBlobs(image));
+                        //}
+                    }
                 }
             }
         }
