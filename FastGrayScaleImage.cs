@@ -1,21 +1,25 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Drawing.Imaging;
 using System.Drawing;
+using System.Diagnostics;
 
 namespace Histogram
 {
     public class FastGrayScaleImage : IDisposable, IBrightnessImage
     {
-        public int Width { get; private set; }
-        public int Height { get; private set; }
+        public int Width { get { return NativeBitmap.Width; } }
+        public int Height { get { return NativeBitmap.Height; } }
         public Image NativeBitmap { get { return image.NativeBitmap; } }
 
         public float GetBrightness(int x, int y)
         {
             int index = y * image.Stride + x * image.PixelFormatSize;
+			
+			//Debug.WriteLine(string.Format("GetBrightness: {0}x{1}[{2}] = {3}", Width, Height, index, image.Bits[index] / 256.0f));
+			
             return image.Bits[index] / 256.0f;
         }
 

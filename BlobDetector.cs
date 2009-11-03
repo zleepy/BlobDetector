@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -91,21 +91,21 @@ namespace Histogram
                     lastPixelBlobNo = row[lastRowIndex + x];
                     if (currentPixelBlobNo > 0 && lastPixelBlobNo > 0 && currentPixelBlobNo != lastPixelBlobNo)
                     {
-                        blobToMerge = blobs[lastPixelBlobNo];
-                        tempBlob = blobs[currentPixelBlobNo];
+                        blobToMerge = blobs[currentPixelBlobNo];
+                        tempBlob = blobs[lastPixelBlobNo];
                         tempBlob.AddRange(blobToMerge);
-                        blobs.Remove(lastPixelBlobNo);
+                        blobs.Remove(currentPixelBlobNo);
 
                         // Uppdatera blobindex så att de pekar på den nya blobben.
-                        for (int lx = 0; lx <= x; lx++)
-                        {
-                            if (row[currentRowIndex + lx] == lastPixelBlobNo)
-                                row[currentRowIndex + lx] = currentPixelBlobNo;
-                        }
                         for (int lx = 0; lx < width; lx++)
                         {
-                            if (row[lastRowIndex + lx] == lastPixelBlobNo)
-                                row[lastRowIndex + lx] = currentPixelBlobNo;
+                            if (row[currentRowIndex + lx] == currentPixelBlobNo)
+                                row[currentRowIndex + lx] = lastPixelBlobNo;
+                        }
+                        for (int lx = x; lx < width; lx++)
+                        {
+                            if (row[lastRowIndex + lx] == currentPixelBlobNo)
+                                row[lastRowIndex + lx] = lastPixelBlobNo;
                         }
                     }
                 }
@@ -116,6 +116,8 @@ namespace Histogram
 
             totalTime.Stop();
 
+			Debug.WriteLine("Blob count:" + blobCount.ToString());
+			Debug.WriteLine("Merged blob count:" + blobs.Count.ToString());
             Debug.WriteLine("BlobDetector:DetectBlobs Blob detection time:" + lineSearchTime.Elapsed.TotalSeconds.ToString());
             Debug.WriteLine("BlobDetector:DetectBlobs Blob merge time:" + mergeTime.Elapsed.TotalSeconds.ToString());
             Debug.WriteLine("BlobDetector:DetectBlobs Total time:" + totalTime.Elapsed.TotalSeconds.ToString());
@@ -209,6 +211,46 @@ namespace Histogram
                 lineSearchTime.Stop();
 
                 mergeTime.Start();
+				
+				foreach (LineBlob b in tempBlobs) 
+				{
+					foreach (var lb in lastLineBlobs) 
+					{
+						if((b.Index < lb.Index && (b.Index + b.Count) >= lb.Index) || 
+						   (b.Index >= lb.Index && b.Index < (lb.Index + lb.Count)))
+						{
+							if(lb.Children == null)
+								lb.Children = new List<int>();
+							
+							if(lb.ParentId == 0)
+							{
+								if(lb.Children == null)
+									lb.Children = new List<int>();
+								
+								lb.Children.Add(b.Id);
+								
+								b.ParentId = lb.Id;
+							}
+							else
+							{
+								var parentBlob = parentBlobs.Find(p => p.Id == lb.ParentId);
+								
+								if(parentBlob.Children == null)
+									parentBlob.Children = new List<int>();
+								
+								b.ParentId = lb.ParentId;
+							}
+						}
+					}
+				}
+				
+				parentBlobs.AddRange(tempBlobs.FindAll(p => p.ParentId == 0));
+				
+				lastLineBlobs.Clear();
+				lastLineBlobs.AddRange(tempBlobs);
+				tempBlobs.Clear();
+				
+				
                 // Slå ihob blobbar som har pixlar brevid varandra.
             //    List<Point> blobToMerge;
             //    int currentPixelBlobNo;
@@ -243,6 +285,7 @@ namespace Histogram
 
             totalTime.Stop();
 
+			Debug.WriteLine("Merged blob count:" + parentBlobs.Count.ToString());
             Debug.WriteLine("BlobDetector:DetectBlobs Blob detection time:" + lineSearchTime.Elapsed.TotalSeconds.ToString());
             Debug.WriteLine("BlobDetector:DetectBlobs Blob merge time:" + mergeTime.Elapsed.TotalSeconds.ToString());
             Debug.WriteLine("BlobDetector:DetectBlobs Blob management time:" + blobManagementTime.Elapsed.TotalSeconds.ToString());
