@@ -36,5 +36,12 @@ namespace Histogram
             else
                 destination[index >> 3] &= (byte)(~(byte)128 >> (byte)(index & 7));
         }
+
+        public static void SetRange(byte[] destination, int index, int count, bool value)
+        {
+            //TODO: Optimera det här lite...
+            for (int i = index; i < index + count; i++)
+                Set(destination, i, value);
+        }
     }
 }

@@ -16,7 +16,7 @@ namespace Histogram
         /// <summary>
         /// Antalet svarta pixlar som ingår i blobben.
         /// </summary>
-        public uint Area;
+        public int Area;
 
         /// <summary>
         /// En 1bpp mask av vad som hör till den här blobben.
@@ -30,7 +30,7 @@ namespace Histogram
 
         public Blob(List<Point> points)
         {
-            Area = (uint)points.Count;
+            Area = points.Count;
             BoundingBox = CreateBoundingBox(points);
             Mask = CreateMask(BoundingBox, points);
         }

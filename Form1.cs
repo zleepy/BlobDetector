@@ -46,10 +46,10 @@ namespace Histogram
                         UpdateHorizontalHistogram(image);
 
                         var b = new BlobDetector();
-                        blobs = new List<Blob>(b.DetectBlobs(gsImage));
+                        blobs = b.DetectBlobs(gsImage);
 
                         var b2 = new BlobDetector2();
-                        b2.DetectBlobs(gsImage);
+                        blobs = b2.DetectBlobs(gsImage);
                         //blobs = new List<Blob>(b.DetectBlobs(image));
                         //}
                     }
