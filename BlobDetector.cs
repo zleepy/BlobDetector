@@ -409,19 +409,19 @@ namespace Histogram
                         lineSearchTime.Stop();
                         mergeTime.Start();
 
-                        //tempBlob = null;
+                        tempBlob = null;
                         bool isMerged = false;
 
                         // Hitta blob att merga med om det finns någon.
                         foreach (var lastLineBlob in lastLineBlobs)
                         {
-                            foreach (var item in collection)
+                            foreach (var line in lastLineBlob.Lines)
                             {
                                 //         |------------|          <- Om det här är den föregående raden.
                                 // |----|                 |----|   <- Så är det här är de enda vi inte vill koppla ihop med den ovanför.
                                 //      |----| |----| |-----|
                                 //    |----------------------|
-                                if (!(((tmpBlobStart + tmpBlobLength) < lastLineBlob.Index) || ((lastLineBlob.Index + lastLineBlob.Count) < tmpBlobStart)))
+                                if (!(((tmpBlobStart + tmpBlobLength) < line.Index) || ((line.Index + line.Count) < tmpBlobStart)))
                                 {
                                     if (!isMerged)
                                     {
@@ -431,8 +431,6 @@ namespace Histogram
                                     }
                                     else
                                     {
-                                        //tempBlob.Lines.Add(lastLineBlob.Lines);
-                                        //lastLineBlob.Lines = tempBlob.Lines;
                                         lastLineBlob.Id = tempBlob.Id;
                                     }
                                 }
@@ -455,86 +453,58 @@ namespace Histogram
                     }
                 }
                 lineSearchTime.Stop();
-
-                //mergeTime.Start();
-
-                //foreach (var currentLineBlob in tempBlobs)
-                //{
-                //    foreach (var lastLineBlob in lastLineBlobs)
-                //    {
-                //        //         |------------|          <- Om det här är den föregående raden.
-                //        // |----|                 |----|   <- Så är det här är de enda vi inte vill koppla ihop med den ovanför.
-                //        //      |----| |----| |-----|
-                //        //    |----------------------|
-                //        if (!(((currentLineBlob.Index + currentLineBlob.Count) < lastLineBlob.Index) || ((lastLineBlob.Index + lastLineBlob.Count) < currentLineBlob.Index)))
-                //        {
-                //            //if(lastLineBlob.Children == null)
-                //            //	lastLineBlob.Children = new List<int>();
-
-                //            if (lastLineBlob.ParentId == 0)
-                //            {
-                //                if (lastLineBlob.Children == null)
-                //                {
-                //                    lastLineBlob.Children = new List<int>();
-                //                    parentBlobs.Add(lastLineBlob);
-                //                }
-
-                //                currentLineBlob.ParentId = lastLineBlob.Id;
-                //                lastLineBlob.Children.Add(currentLineBlob.Id);
-                //            }
-                //            else
-                //            {
-                //                var parentBlob = parentBlobs.Find(p => p.Id == lastLineBlob.ParentId);
-                //                parentBlob.Children.Add(currentLineBlob.Id);
-                //                currentLineBlob.ParentId = parentBlob.Id;
-                //            }
-                //        }
-                //    }
-                //}
-
-                //mergeTime.Stop();
             }
 
             resultCreationTime.Start();
 
-            //var allParentBlobs = blobs.FindAll(a => a.ParentId == 0);
             var result = new List<Blob>();
+            var lines = new List<Line>();
+            Rectangle rect;
+            int area;
+            int top;
+            int bottom;
+            int left;
+            int right;
 
             // Hämta ut alla blobbar grupperat på id och skapa resultatet utifrån dom.
+            foreach (var group in blobs.GroupBy(g => g.Id))
+            {
+                lines.Clear();
+                area = 0;
+                top = int.MaxValue;
+                bottom = int.MinValue;
+                left = int.MaxValue;
+                right = int.MinValue;
 
-            //foreach (var pb in allParentBlobs)
-            //{
-            //    int area = pb.Count;
-            //    int top = pb.LineIndex;
-            //    int bottom = pb.LineIndex;
-            //    int left = pb.Index;
-            //    int right = pb.Index + pb.Count;
+                foreach (var l in group)
+                {
+                    lines.AddRange(l.Lines);
 
-            //    var children = (pb.Children == null) ? new List<LineBlob>() : pb.Children.ConvertAll(c => blobs[c]);
+                    foreach (var tl in l.Lines)
+                    {
+                        area += tl.Count;
 
-            //    foreach (var c in children)
-            //    {
-            //        area += c.Count;
+                        if (tl.Index < left)
+                            left = tl.Index;
+                        if (tl.Index + tl.Count > right)
+                            right = tl.Index + tl.Count;
+                        if (tl.LineIndex < top)
+                            top = tl.LineIndex;
+                        if (tl.LineIndex > bottom)
+                            bottom = tl.LineIndex;
+                    }
+                }
 
-            //        if (c.Index < left)
-            //            left = c.Index;
-            //        if (c.Index + c.Count > right)
-            //            right = c.Index + c.Count;
-            //        if (c.LineIndex < top)
-            //            top = c.LineIndex;
-            //        if (c.LineIndex > bottom)
-            //            bottom = c.LineIndex;
-            //    }
+                rect = new Rectangle(left, top, right - left + 1, bottom - top + 1);
 
-            //    var rectangle = new Rectangle(left, top, right - left, bottom - top + 1);
+                result.Add(new Blob()
+                {
+                    Area = lines.Sum(l => l.Count),
+                    BoundingBox = rect,
+                    Mask = CreateMask(rect, lines),
+                });
+            }
 
-            //    result.Add(new Blob()
-            //    {
-            //        Area = area,
-            //        BoundingBox = rectangle,
-            //        Mask = CreateMask(rectangle, pb, children),
-            //    });
-            //}
             resultCreationTime.Start();
             totalTime.Stop();
 
@@ -550,10 +520,10 @@ namespace Histogram
             return result;
         }
 
-        private byte[] CreateMask(Rectangle rect, LineBlob parent, IEnumerable<LineBlob> children)
+        private byte[] CreateMask(Rectangle rect, IEnumerable<Line> allLines)
         {
-            var allLines = new List<LineBlob>(children);
-            allLines.Add(parent);
+            //var allLines = new List<LineBlob>(children);
+            //allLines.Add(parent);
 
             byte[] newMask = new byte[(int)Math.Ceiling(rect.Width * rect.Height / 8.0)];
 
