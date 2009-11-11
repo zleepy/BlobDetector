@@ -45,11 +45,14 @@ namespace Histogram
                         UpdateVerticalHistogram(image);
                         UpdateHorizontalHistogram(image);
 
-                        var b = new BlobDetector();
+                        var b = new SimpleBlobDetector();
                         blobs = b.DetectBlobs(gsImage);
 
-                        var b2 = new BlobDetector2();
+                        var b2 = new BlobDetector();
                         blobs = b2.DetectBlobs(gsImage);
+
+                        //var b3 = new BlobDetector3();
+                        //b3.DetectBlobs(gsImage);
                         //blobs = new List<Blob>(b.DetectBlobs(image));
                         //}
                     }
