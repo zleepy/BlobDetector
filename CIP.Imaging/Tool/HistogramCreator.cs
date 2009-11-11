@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Diagnostics;
+using Cip.Imaging;
+using Cip.Imaging.Tool;
 
-namespace Histogram
+namespace Cip.Imaging
 {
     public class HistogramCreator
     {
@@ -44,40 +46,32 @@ namespace Histogram
             return hhist;
         }
 
-        //public int[] CreateVerticalHistogram(Blob img)
-        //{
-        //    Stopwatch totalTime = Stopwatch.StartNew();
-        //    int width = img.BoundingBox.Width;
-        //    int height = img.BoundingBox.Height;
-        //    int[] vhist = new int[height];
+        public int[] CreateVerticalHistogram(byte[] source, int width, int height)
+        {
+            Stopwatch totalTime = Stopwatch.StartNew();
+            int[] vhist = new int[height];
 
-        //    for (int y = 0; y < height; y++)
-        //    {
-        //        int sum = 0;
-        //        for (int x = 0; x < width; x++)
-        //            sum += BitManipulator.ToInt32(img.Mask, width * y + y);
-        //        vhist[y] = sum / width;
-        //    }
-        //    Debug.WriteLine("HistogramCreator:CreateVerticalHistogram Total time: " + totalTime.Elapsed.TotalSeconds.ToString());
-        //    return vhist;
-        //}
+            for (int y = 0; y < height; y++)
+                vhist[y] = BitManipulator.CountSetBits(source, width * y, width) / width;
+            
+            Debug.WriteLine("HistogramCreator:CreateVerticalHistogram Total time: " + totalTime.Elapsed.TotalSeconds.ToString());
+            return vhist;
+        }
 
-        //public int[] CreateHorizontalHistogram(Blob img)
-        //{
-        //    Stopwatch totalTime = Stopwatch.StartNew();
-        //    int width = img.BoundingBox.Width;
-        //    int height = img.BoundingBox.Height;
-        //    int[] hhist = new int[width];
+        public int[] CreateHorizontalHistogram(byte[] source, int width, int height)
+        {
+            Stopwatch totalTime = Stopwatch.StartNew();
+            int[] hhist = new int[width];
 
-        //    for (int x = 0; x < width; x++)
-        //    {
-        //        int sum = 0;
-        //        for (int y = 0; y < height; y++)
-        //            sum += BitManipulator.ToInt32(img.Mask, width * y + y);
-        //        hhist[x] = sum / height;
-        //    }
-        //    Debug.WriteLine("HistogramCreator:CreateHorizontalHistogram Total time: " + totalTime.Elapsed.TotalSeconds.ToString());
-        //    return hhist;
-        //}
+            for (int x = 0; x < width; x++)
+            {
+                int sum = 0;
+                for (int y = 0; y < height; y++)
+                    sum += BitManipulator.ToInt32(source, width * y + x);
+                hhist[x] = sum / height;
+            }
+            Debug.WriteLine("HistogramCreator:CreateHorizontalHistogram Total time: " + totalTime.Elapsed.TotalSeconds.ToString());
+            return hhist;
+        }
     }
 }

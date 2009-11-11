@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Diagnostics;
 using System.Drawing;
+using Cip.Imaging;
 
 namespace Histogram
 {
@@ -100,12 +101,12 @@ namespace Histogram
 
             totalTime.Stop();
 
-            Debug.WriteLine("-------------------------------------------");
-            Debug.WriteLine("Blob count:" + blobCount.ToString());
-            Debug.WriteLine("Merged blob count:" + blobs.Count.ToString());
-            Debug.WriteLine("BlobDetector:DetectBlobs Blob detection time:" + lineSearchTime.Elapsed.TotalSeconds.ToString());
-            Debug.WriteLine("BlobDetector:DetectBlobs Blob merge time:" + mergeTime.Elapsed.TotalSeconds.ToString());
-            Debug.WriteLine("BlobDetector:DetectBlobs Total time:" + totalTime.Elapsed.TotalSeconds.ToString());
+            Trace.WriteLine("-------------------------------------------");
+            Trace.WriteLine("Blob count:" + blobCount.ToString());
+            Trace.WriteLine("Merged blob count:" + blobs.Count.ToString());
+            Trace.WriteLine("BlobDetector:DetectBlobs Blob detection time:" + lineSearchTime.Elapsed.TotalSeconds.ToString());
+            Trace.WriteLine("BlobDetector:DetectBlobs Blob merge time:" + mergeTime.Elapsed.TotalSeconds.ToString());
+            Trace.WriteLine("BlobDetector:DetectBlobs Total time:" + totalTime.Elapsed.TotalSeconds.ToString());
 
             return result;
         }

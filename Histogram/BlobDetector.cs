@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Diagnostics;
 using System.Drawing;
+using Cip.Imaging;
+using Cip.Imaging.Tool;
 
 namespace Histogram
 {
@@ -25,7 +27,7 @@ namespace Histogram
 
         public IEnumerable<Blob> DetectBlobs(IBrightnessImage img)
         {
-            Debug.WriteLine("-------------------------------------------");
+            Trace.WriteLine("-------------------------------------------");
 
             Stopwatch totalTime = Stopwatch.StartNew();
             Stopwatch lineSearchTime = Stopwatch.StartNew();
@@ -65,10 +67,10 @@ namespace Histogram
 
             totalTime.Stop();
 
-            Debug.WriteLine("BlobDetector:DetectBlobs Blob detection time:" + lineSearchTime.Elapsed.TotalSeconds.ToString());
-            Debug.WriteLine("BlobDetector:DetectBlobs Blob merge time:" + mergeTime.Elapsed.TotalSeconds.ToString());
-            Debug.WriteLine("BlobDetector:DetectBlobs Blob management time:" + blobManagementTime.Elapsed.TotalSeconds.ToString());
-            Debug.WriteLine("BlobDetector:DetectBlobs Total time:" + totalTime.Elapsed.TotalSeconds.ToString());
+            Trace.WriteLine("BlobDetector:DetectBlobs Blob detection time:" + lineSearchTime.Elapsed.TotalSeconds.ToString());
+            Trace.WriteLine("BlobDetector:DetectBlobs Blob merge time:" + mergeTime.Elapsed.TotalSeconds.ToString());
+            Trace.WriteLine("BlobDetector:DetectBlobs Blob management time:" + blobManagementTime.Elapsed.TotalSeconds.ToString());
+            Trace.WriteLine("BlobDetector:DetectBlobs Total time:" + totalTime.Elapsed.TotalSeconds.ToString());
 
             return result;
         }
@@ -193,9 +195,9 @@ namespace Histogram
             }
             resultCreationTime.Stop();
 
-            Debug.WriteLine("Blob count:" + blobs.Count.ToString());
-            Debug.WriteLine("Blob result creation time:" + resultCreationTime.Elapsed.TotalSeconds.ToString());
-            Debug.WriteLine("Merged blob count:" + result.Count.ToString());
+            Trace.WriteLine("Blob count:" + blobs.Count.ToString());
+            Trace.WriteLine("Blob result creation time:" + resultCreationTime.Elapsed.TotalSeconds.ToString());
+            Trace.WriteLine("Merged blob count:" + result.Count.ToString());
 
             return result;
         }

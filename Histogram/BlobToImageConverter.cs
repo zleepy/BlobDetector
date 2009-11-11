@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Drawing;
 using System.Drawing.Imaging;
+using Cip.Imaging.Tool;
 
 namespace Histogram
 {

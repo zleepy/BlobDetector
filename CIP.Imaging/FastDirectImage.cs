@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 using System.Drawing;
 using System.Drawing.Imaging;
 
-namespace Histogram
+namespace Cip.Imaging
 {
     public class FastDirectImage : IDisposable, IBrightnessImage
     {

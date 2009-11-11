@@ -1,2 +1,6 @@
-bin/*
-obj/*
+Histogram/bin/*
+Histogram/obj/*
+CIP.Imaging/bin/*
+CIP.Imaging/obj/*
+Trainer/bin/*
+Trainer/obj/*

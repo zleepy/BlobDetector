@@ -6,7 +6,7 @@ using System.Drawing.Imaging;
 using System.Drawing;
 using System.Diagnostics;
 
-namespace Histogram
+namespace Cip.Imaging
 {
     public class FastGrayScaleImage : IDisposable, IBrightnessImage
     {
@@ -17,9 +17,6 @@ namespace Histogram
         public float GetBrightness(int x, int y)
         {
             int index = y * image.Stride + x * image.PixelFormatSize;
-			
-			//Debug.WriteLine(string.Format("GetBrightness: {0}x{1}[{2}] = {3}", Width, Height, index, image.Bits[index] / 256.0f));
-			
             return image.Bits[index] / 256.0f;
         }
 

@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Drawing.Imaging;
 using System.Diagnostics;
+using Cip.Imaging;
 
 namespace Histogram
 {
