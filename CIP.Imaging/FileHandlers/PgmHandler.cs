@@ -6,7 +6,7 @@ using System.IO;
 
 namespace Cip.Imaging.FileHandlers
 {
-    public class PgmHandler
+    public class PgmHandler : PnmBase
     {
         public void Save(FastGrayScaleImage img, string path)
         {
@@ -30,7 +30,7 @@ namespace Cip.Imaging.FileHandlers
 
             using (var rs = File.OpenRead(path))
             {
-                VerifyFileVersion(rs);
+                VerifyFileVersion(rs, "P5");
 
                 int width;
                 int height;
@@ -54,48 +54,6 @@ namespace Cip.Imaging.FileHandlers
             }
 
             return result;
-        }
-
-        private int ReadInteger(FileStream rs)
-        {
-            int temp = ReadByteAfterWhitespace(rs);
-            string buff = "";
-            while (temp >= 0 && !IsWhitespace(temp))
-            {
-                buff += (char)temp;
-                temp = rs.ReadByte();
-            }
-            return int.Parse(buff);
-        }
-
-        private static void VerifyFileVersion(FileStream rs)
-        {
-            byte[] magicNumber = new byte[2];
-
-            if (rs.Read(magicNumber, 0, 2) < 2)
-                throw new IOException("Kunde inte lästa filens versions nummer.");
-
-            if (!VerifyMagicNumber(magicNumber))
-                throw new IOException("Filens versionsnummer är felaktigt. Måste vara P5 men var " + Encoding.ASCII.GetString(magicNumber) + ".");
-        }
-
-        private static bool VerifyMagicNumber(byte[] magicNumber)
-        {
-            return Encoding.ASCII.GetString(magicNumber) == "P5";
-        }
-
-        private int ReadByteAfterWhitespace(Stream s)
-        {
-            int buff = s.ReadByte();
-            while (buff >= 0 && IsWhitespace(buff))
-                buff = s.ReadByte();
-            return buff;
-        }
-
-        private static int[] whitespaces = new int[] { 0, 9, 10, 11, 12, 13, 32 };
-        private bool IsWhitespace(int c)
-        {
-            return Array.Exists(whitespaces, x => x == c);
         }
     }
 }

@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FileHandlers\PnmBase.cs" />
     <Compile Include="IBrightnessImage.cs" />
     <Compile Include="FileHandlers\PbmHandler.cs" />
     <Compile Include="FileHandlers\PgmHandler.cs" />
