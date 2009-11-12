@@ -37,6 +37,9 @@ namespace Histogram
                     {
                         var conversionTime = Stopwatch.StartNew();
                         var gsImage = FastGrayScaleImage.FromImage(image);
+
+                        //new Cip.Imaging.SaveHandlers.PgmHandler().Save(gsImage, @"D:\test.pgm");
+
                         originalPictureBox.Image = gsImage.NativeBitmap;
                         //using (var gsImage = FastGrayScaleImage.FromImage(image))
                         //{
@@ -56,6 +59,7 @@ namespace Histogram
                         //b3.DetectBlobs(gsImage);
                         //blobs = new List<Blob>(b.DetectBlobs(image));
                         //}
+
                     }
                 }
             }

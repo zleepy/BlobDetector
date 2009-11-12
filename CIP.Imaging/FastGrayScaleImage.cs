@@ -13,6 +13,7 @@ namespace Cip.Imaging
         public int Width { get { return NativeBitmap.Width; } }
         public int Height { get { return NativeBitmap.Height; } }
         public Image NativeBitmap { get { return image.NativeBitmap; } }
+        public byte[] Bits { get { return image.Bits; } }
 
         public float GetBrightness(int x, int y)
         {
@@ -22,14 +23,20 @@ namespace Cip.Imaging
 
         private FastDirectImage image;
 
+        public FastGrayScaleImage(int width, int height)
+        {
+            image = FastDirectImage.Create(width, height, PixelFormat.Format8bppIndexed);
+            CreateGrayScalePalette(image.NativeBitmap);
+        }
+
         public static FastGrayScaleImage FromImage(FastDirectImage img)
         {
             int width = img.Width;
             int height = img.Height;
 
-            var result = new FastGrayScaleImage();
-            result.image = FastDirectImage.Create(width, height, PixelFormat.Format8bppIndexed);
-            CreateGrayScalePalette(result.NativeBitmap);
+            var result = new FastGrayScaleImage(width, height);
+            //result.image = FastDirectImage.Create(width, height, PixelFormat.Format8bppIndexed);
+            //CreateGrayScalePalette(result.NativeBitmap);
 
             int oIndex = -img.Padding;
             int dIndex = -result.image.Padding;

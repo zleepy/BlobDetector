@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="IBrightnessImage.cs" />
     <Compile Include="SaveHandlers\PbmHandler.cs" />
+    <Compile Include="SaveHandlers\PgmHandler.cs" />
     <Compile Include="Tool\BitManipulator.cs" />
     <Compile Include="FastDirectImage.cs" />
     <Compile Include="FastGrayScaleImage.cs" />
