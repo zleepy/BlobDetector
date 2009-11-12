@@ -35,8 +35,6 @@ namespace Cip.Imaging
             int height = img.Height;
 
             var result = new FastGrayScaleImage(width, height);
-            //result.image = FastDirectImage.Create(width, height, PixelFormat.Format8bppIndexed);
-            //CreateGrayScalePalette(result.NativeBitmap);
 
             int oIndex = -img.Padding;
             int dIndex = -result.image.Padding;
