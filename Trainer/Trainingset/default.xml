@@ -1,0 +1,35 @@
+<TrainingSet>
+	<FontName>Generic</FontName>
+	<FontFamily>Generic</FontFamily>
+	<Subsets>
+		<Subset MinimumCharacterDistance="10">
+			<ImagePath>generic.png</ImagePath>
+			<Truth><![CDATA[
+				,.;:-~_'´`*/\*-+?!()[]{}<>=&%$£@
+				abcdefghijklmnopqrstuvwxyzåäö
+				ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ
+				
+				,.;:-~_'´`*/\*-+?!()[]{}<>=&%$£@
+				abcdefghijklmnopqrstuvwxyzåäö
+				ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ
+				
+				,.;:-~_'´`*/\*-+?!()[]{}<>=&%$£@
+				abcdefghijklmnopqrstuvwxyzåäö
+				ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ
+				]]>
+			</Truth>
+		</Subset>
+		<!--<Subset MinimumCharacterDistance="10">
+			<Attributes>
+				<Attribute>bold</Attribute>
+			</Attributes>
+			<ImagePath>generic-bold.png</ImagePath>
+			<Truth><![CDATA[
+				,.;:-~_'´`*/\*-+?!()[]{}<>=&%$£@
+				abcdefghijklmnopqrstuvwxyzåäö
+				ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ
+				]]>
+			</Truth>
+		</Subset>-->
+	<Subsets>
+<TrainingSet>
