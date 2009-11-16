@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -68,5 +68,18 @@ namespace Cip.Imaging.Tool
                 c += CountSetBits(source[index]);
             return c;
         }
+
+		public static byte[] And(byte[] a, byte[] b)
+		{
+			if(a.Length != b.Length)
+				throw new IndexOutOfRangeException("Byte arrays must be of same lenght.");
+			
+			byte[] result = new byte[a.Length];
+			
+			for (int i = 0; i < a.Length; i++) 
+				result[i] = (byte)(a[i] & b[i]);
+			
+			return result;
+		}
     }
 }
