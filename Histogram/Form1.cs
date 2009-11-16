@@ -10,6 +10,7 @@ using System.Runtime.InteropServices;
 using System.Drawing.Imaging;
 using System.Diagnostics;
 using Cip.Imaging;
+using Cip.Imaging.BlobDetection;
 
 namespace Histogram
 {
@@ -49,11 +50,14 @@ namespace Histogram
                         UpdateVerticalHistogram(image);
                         UpdateHorizontalHistogram(image);
 
-                        var b = new SimpleBlobDetector();
-                        blobs = b.DetectBlobs(gsImage);
+                        //var b = new SimpleBlobDetector();
+                        //blobs = b.DetectBlobs(gsImage);
 
                         var b2 = new BlobDetector();
                         blobs = b2.DetectBlobs(gsImage);
+
+                        var blobFilter = new BlobSizeFilter(true, 5, 5, 100, 100, 0.5);
+                        blobs = blobFilter.Process(blobs);
 
                         //var b3 = new BlobDetector3();
                         //b3.DetectBlobs(gsImage);

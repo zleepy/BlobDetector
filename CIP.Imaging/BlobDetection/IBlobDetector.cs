@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Cip.Imaging;
 
-namespace Histogram
+namespace Cip.Imaging.BlobDetection
 {
     public interface IBlobDetectior
     {

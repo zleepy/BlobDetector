@@ -5,7 +5,7 @@ using System.Text;
 using System.Drawing;
 using Cip.Imaging.Tool;
 
-namespace Histogram
+namespace Cip.Imaging.BlobDetection
 {
     public class Blob
     {

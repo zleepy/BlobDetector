@@ -88,12 +88,12 @@ namespace Trainer
         /// Är det en generell sanning så namnge den "generic".
         /// </summary>
         public string FontFamily { get; set; }
-
+        
+        [XmlElement("Subset")]
         public List<TrainingSubSet> Subsets { get; set; }
     }
 
     [Serializable]
-    [XmlElement("Subset")]
     public class TrainingSubSet
     {
         /// <summary>

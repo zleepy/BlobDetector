@@ -46,6 +46,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BlobDetection\Blob.cs" />
+    <Compile Include="BlobDetection\BlobDetector.cs" />
+    <Compile Include="BlobDetection\BlobDistanceMerge.cs" />
+    <Compile Include="BlobDetection\BlobToImageConverter.cs" />
+    <Compile Include="BlobDetection\ExperimentalBlobDetector.cs" />
+    <Compile Include="BlobDetection\IBlobDetector.cs" />
+    <Compile Include="BlobDetection\SimpleBlobDetector.cs" />
+    <Compile Include="BlobDetection\BlobSizeFilter.cs" />
     <Compile Include="FileHandlers\PnmBase.cs" />
     <Compile Include="IBrightnessImage.cs" />
     <Compile Include="FileHandlers\PbmHandler.cs" />

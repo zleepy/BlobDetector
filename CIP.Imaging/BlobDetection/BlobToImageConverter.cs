@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using Cip.Imaging.Tool;
 
-namespace Histogram
+namespace Cip.Imaging.BlobDetection
 {
     public class BlobToImageConverter
     {

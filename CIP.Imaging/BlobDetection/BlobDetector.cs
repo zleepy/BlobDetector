@@ -7,7 +7,7 @@ using System.Drawing;
 using Cip.Imaging;
 using Cip.Imaging.Tool;
 
-namespace Histogram
+namespace Cip.Imaging.BlobDetection
 {
     /// <summary>
     /// http://geekblog.nl/entry/24
