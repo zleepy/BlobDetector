@@ -49,6 +49,7 @@
     <Compile Include="BlobDetection\Blob.cs" />
     <Compile Include="BlobDetection\BlobDetector.cs" />
     <Compile Include="BlobDetection\BlobDistanceMerge.cs" />
+    <Compile Include="BlobDetection\BlobMerger.cs" />
     <Compile Include="BlobDetection\BlobToImageConverter.cs" />
     <Compile Include="BlobDetection\ExperimentalBlobDetector.cs" />
     <Compile Include="BlobDetection\IBlobDetector.cs" />

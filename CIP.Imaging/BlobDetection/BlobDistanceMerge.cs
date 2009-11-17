@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Cip.Imaging.Tool;
 using System.Drawing;
+using System.Diagnostics;
 
 namespace Cip.Imaging.BlobDetection
 {
@@ -11,23 +12,28 @@ namespace Cip.Imaging.BlobDetection
     {
         public bool IsVerbose { get; private set; }
 		public int MinDistance { get; private set; }
+        public BlobMerger Merger { get; private set; }
 
-        public BlobDistanceMerge(bool isVerbose, int minDistance)
+        public BlobDistanceMerge(bool isVerbose, int minDistance, BlobMerger merger)
         {
             IsVerbose = isVerbose;
 			MinDistance = minDistance;
+            Merger = merger;
         }
 
         public IEnumerable<Blob> Process(IEnumerable<Blob> blobs)
         {
 			var result = new List<Blob>(blobs);
-        	
-			for (int i = 0; i < blobs.Count(); i++) 
+
+            Trace.WriteLineIf(IsVerbose, "BlobDistanceMerge: Antal blobbar: " + result.Count.ToString());
+
+            int blobCount = blobs.Count();
+            for (int i = 0; i < blobCount; i++) 
 			{
 				var r = result[i].BoundingBox;
 				r.Inflate(MinDistance, MinDistance);
-				
-				for (int k = i + 1; k < blobs.Count(); k++) 
+
+                for (int k = i + 1; k < blobCount; k++) 
 				{
 					if(r.IntersectsWith(result[k].BoundingBox))
 					{
@@ -36,25 +42,20 @@ namespace Cip.Imaging.BlobDetection
 						r.Inflate(MinDistance, MinDistance);
 						result.RemoveAt(k);
 						k--;
+                        blobCount--;
 					}
 				}
         	}
-			
+
+            Trace.WriteLineIf(IsVerbose, "BlobDistanceMerge: Antal blobbar efter sammanslagning: " + result.Count.ToString());
+
 			return result;
         }
 		
 		private Blob Merge(Blob a, Blob b)
 		{
-			Blob result = new Blob();
-			result.Mask = BitManipulator.And(a.Mask, b.Mask);
-			result.Area = BitManipulator.CountSetBits(result.Mask);
-			result.BoundingBox = new Rectangle(
-				Math.Min(a.BoundingBox.X, b.BoundingBox.X),
-			    Math.Min(a.BoundingBox.Y, b.BoundingBox.Y),
-			    Math.Min(a.BoundingBox.Right, b.BoundingBox.Right) - Math.Min(a.BoundingBox.X, b.BoundingBox.X),
-			    Math.Min(a.BoundingBox.Bottom, b.BoundingBox.Bottom) - Math.Min(a.BoundingBox.Y, b.BoundingBox.Y));
-			
-			return result;
+            Trace.WriteLineIf(IsVerbose, string.Format("BlobDistanceMerge: Sammanslagning av {0} och {1}.", a.BoundingBox, b.BoundingBox));
+            return Merger.CreateMergedBlob(a, b);
 		}
     }
 }

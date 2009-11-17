@@ -65,21 +65,27 @@ namespace Cip.Imaging.Tool
             int c = 0;
             int index = startIndex;
             while (index < count + startIndex)
-                c += CountSetBits(source[index]);
+                c += CountSetBits(source[index++]);
             return c;
         }
 
-		public static byte[] And(byte[] a, byte[] b)
+		public static void And(byte[] baseSource, int startIndex, int count, byte[] newSource)
 		{
-			if(a.Length != b.Length)
-				throw new IndexOutOfRangeException("Byte arrays must be of same lenght.");
-			
-			byte[] result = new byte[a.Length];
-			
-			for (int i = 0; i < a.Length; i++) 
-				result[i] = (byte)(a[i] & b[i]);
-			
-			return result;
+            And(baseSource, startIndex, count, newSource, 0);
 		}
+
+        public static void And(byte[] baseSource, int baseStartIndex, int count, byte[] newSource, int newSourceStartIndex)
+        {
+            for (int i = 0; i < count; i++)
+                Set(baseSource, baseStartIndex + i, ToBoolean(newSource, newSourceStartIndex + i));
+
+            //// Om baseStartIndex inte är alignat med 8 (en hel byte) så måste vi 
+            //// göra lite special för att bara sätta dom bytes som ska sättas.
+            //int shift = index & 7;
+            //for(int i = baseStartIndex; i < baseStartIndex + shift
+
+            //for (int i = baseStartIndex / 8; i < (baseStartIndex + count) / 8; i++)
+            //    baseSource[i] &= newSource[newSourceStartIndex + i];
+        }
     }
 }
