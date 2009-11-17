@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml;
 using System.Xml.Serialization;
 
 namespace Trainer
@@ -15,6 +16,7 @@ namespace Trainer
         public int NextFile { get; set; }
     }
 
+	
     /// <summary>
     /// Letar reda på alla xml-filer i katalogen och underkataloger. I en xml-fil kan det finnas 
     /// länkar till en eller flera bilder med original att initiera databasen med. 
@@ -36,26 +38,16 @@ namespace Trainer
         {
             Root = args.Root;
 
-            throw new NotImplementedException();
+			string[] truthFiles = TrainingSetLocator.FindTruthFiles(Root);
+			
+			foreach (string file in truthFiles)
+			{
+				Console.WriteLine(file);
+			}
         }
     }
 
-    /// <summary>
-    /// Hittar alla filer med sanningar som finns i en katalog eller dess underkataloger.
-    /// </summary>
-    public class TrainingSetLocator
-    {
-        private bool verbose;
-        private string root;
-        
-        public TrainingSetLocator(string rootPath, bool verboseOutput)
-        {
-            this.verbose = verboseOutput;
-        }
-
-        //private string FindXmlFiles();
-    }
-
+	
     // 
     // <TrainingSet>
     //  <FontName>Generic</FontName>
@@ -88,7 +80,7 @@ namespace Trainer
         /// Är det en generell sanning så namnge den "generic".
         /// </summary>
         public string FontFamily { get; set; }
-        
+
         [XmlElement("Subset")]
         public List<TrainingSubSet> Subsets { get; set; }
     }
