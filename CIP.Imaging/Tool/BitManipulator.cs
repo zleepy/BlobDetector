@@ -69,23 +69,21 @@ namespace Cip.Imaging.Tool
             return c;
         }
 
-		public static void And(byte[] baseSource, int startIndex, int count, byte[] newSource)
-		{
-            And(baseSource, startIndex, count, newSource, 0);
-		}
+		public static void And(byte[] destination, int index, bool value)
+        {
+            if (value)
+                destination[index >> 3] |= (byte)((byte)128 >> (index & (byte)7));
+        }
+			
+		//public static void And(byte[] baseSource, int startIndex, int count, byte[] newSource)
+		//{
+        //    And(baseSource, startIndex, count, newSource, 0);
+		//}
 
         public static void And(byte[] baseSource, int baseStartIndex, int count, byte[] newSource, int newSourceStartIndex)
         {
             for (int i = 0; i < count; i++)
-                Set(baseSource, baseStartIndex + i, ToBoolean(newSource, newSourceStartIndex + i));
-
-            //// Om baseStartIndex inte är alignat med 8 (en hel byte) så måste vi 
-            //// göra lite special för att bara sätta dom bytes som ska sättas.
-            //int shift = index & 7;
-            //for(int i = baseStartIndex; i < baseStartIndex + shift
-
-            //for (int i = baseStartIndex / 8; i < (baseStartIndex + count) / 8; i++)
-            //    baseSource[i] &= newSource[newSourceStartIndex + i];
+                And(baseSource, baseStartIndex + i, ToBoolean(newSource, newSourceStartIndex + i));
         }
     }
 }

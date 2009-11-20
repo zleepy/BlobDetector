@@ -1,6 +1,15 @@
 Histogram/bin/*
+
 Histogram/obj/*
+
 CIP.Imaging/bin/*
+
 CIP.Imaging/obj/*
+
 Trainer/bin/*
+
 Trainer/obj/*
+*.pidb
+*.userprefs
+UnitTests/bin/*
+UnitTests/obj/*

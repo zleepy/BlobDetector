@@ -7,24 +7,34 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trainer", "Trainer\Trainer.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cip.Imaging", "Cip.Imaging\Cip.Imaging.csproj", "{C1FE953A-25B1-4C69-BD99-4647069CF567}"
 EndProject
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{D9921D94-0C7F-490C-B0A2-4D510864DFA5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{AAE1DECB-C272-4816-AFAF-E10FA3ED308D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AAE1DECB-C272-4816-AFAF-E10FA3ED308D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AAE1DECB-C272-4816-AFAF-E10FA3ED308D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AAE1DECB-C272-4816-AFAF-E10FA3ED308D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{14612CB1-43FB-4BA7-8A5D-A1AA58FCB482}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{14612CB1-43FB-4BA7-8A5D-A1AA58FCB482}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{14612CB1-43FB-4BA7-8A5D-A1AA58FCB482}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{14612CB1-43FB-4BA7-8A5D-A1AA58FCB482}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AAE1DECB-C272-4816-AFAF-E10FA3ED308D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AAE1DECB-C272-4816-AFAF-E10FA3ED308D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AAE1DECB-C272-4816-AFAF-E10FA3ED308D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AAE1DECB-C272-4816-AFAF-E10FA3ED308D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C1FE953A-25B1-4C69-BD99-4647069CF567}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C1FE953A-25B1-4C69-BD99-4647069CF567}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C1FE953A-25B1-4C69-BD99-4647069CF567}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C1FE953A-25B1-4C69-BD99-4647069CF567}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9921D94-0C7F-490C-B0A2-4D510864DFA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9921D94-0C7F-490C-B0A2-4D510864DFA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9921D94-0C7F-490C-B0A2-4D510864DFA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9921D94-0C7F-490C-B0A2-4D510864DFA5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Histogram\Histogram.csproj
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
