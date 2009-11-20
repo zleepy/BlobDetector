@@ -55,7 +55,7 @@ namespace Cip.Imaging.BlobDetection
 		private Blob Merge(Blob a, Blob b)
 		{
             Trace.WriteLineIf(IsVerbose, string.Format("BlobDistanceMerge: Sammanslagning av {0} och {1}.", a.BoundingBox, b.BoundingBox));
-            return Merger.CreateMergedBlob(a, b);
+            return Merger.Merge(a, b);
 		}
     }
 }
