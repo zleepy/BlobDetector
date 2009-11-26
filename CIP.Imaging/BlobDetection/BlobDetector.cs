@@ -25,6 +25,18 @@ namespace Cip.Imaging.BlobDetection
             public int Count;
         }
 
+        public double BrightnessThreshold { get; set; }
+
+        public BlobDetector()
+            : this(0.5)
+        {
+        }
+
+        public BlobDetector(double brightnessThreshold)
+        {
+            BrightnessThreshold = brightnessThreshold;
+        }
+
         public IEnumerable<Blob> DetectBlobs(IBrightnessImage img)
         {
             Trace.WriteLine("-------------------------------------------");
@@ -37,6 +49,7 @@ namespace Cip.Imaging.BlobDetection
             Stopwatch blobManagementTime = Stopwatch.StartNew();
             blobManagementTime.Stop();
 
+            double brightnessThreshold = BrightnessThreshold;
             int width = img.Width;
             int height = img.Height;
             int blobCount = 0;
@@ -58,7 +71,7 @@ namespace Cip.Imaging.BlobDetection
 
                 blobManagementTime.Stop();
 
-                blobCount = ScanLine(blobCount, img, lineSearchTime, width, allBlobs, currentLineBlobs, y);
+                blobCount = ScanLine(blobCount, img, lineSearchTime, width, allBlobs, currentLineBlobs, y, brightnessThreshold);
 
                 MergeBlobsWithPreviousLine(mergeTime, activeParentBlobs, lastLineBlobs, currentLineBlobs);
             }
@@ -75,7 +88,7 @@ namespace Cip.Imaging.BlobDetection
             return result;
         }
 
-        private static int ScanLine(int blobCount, IBrightnessImage img, Stopwatch lineSearchTime, int width, List<LineBlob> blobs, List<LineBlob> tempBlobs, int y)
+        private static int ScanLine(int blobCount, IBrightnessImage img, Stopwatch lineSearchTime, int width, List<LineBlob> blobs, List<LineBlob> tempBlobs, int y, double brightnessThreshold)
         {
             int tmpBlobStart;
             float brightnessValue;
@@ -87,7 +100,7 @@ namespace Cip.Imaging.BlobDetection
             {
                 brightnessValue = img.GetBrightness(x, y);
 
-                if (brightnessValue < 0.5)
+                if (brightnessValue < brightnessThreshold)
                 {
                     tmpBlobStart = x;
 
@@ -95,7 +108,7 @@ namespace Cip.Imaging.BlobDetection
                     for (++x; x < width; x++)
                     {
                         brightnessValue = img.GetBrightness(x, y);
-                        if (brightnessValue >= 0.5)
+                        if (brightnessValue >= brightnessThreshold)
                             break;
                     }
 

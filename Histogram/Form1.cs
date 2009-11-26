@@ -53,11 +53,11 @@ namespace Histogram
                         //var b = new SimpleBlobDetector();
                         //blobs = b.DetectBlobs(gsImage);
 
-                        var b2 = new BlobDetector();
+                        var b2 = new BlobDetector(0.6);
                         blobs = b2.DetectBlobs(gsImage);
 
-                        var blobFilter = new BlobSizeFilter(true, 5, 5, 100, 100, 0.5);
-                        blobs = blobFilter.Process(blobs);
+                        //var blobFilter = new BlobSizeFilter(true, 1, 1, 100, 100, 0.5);
+                        //blobs = blobFilter.Process(blobs);
 
                         var merger = new BlobDistanceMerge(true, 10, new BlobMerger());
 
