@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -60,8 +60,11 @@ namespace Histogram
                         //blobs = blobFilter.Process(blobs);
 
                         var merger = new BlobDistanceMerge(true, 10, new BlobMerger());
-
                         blobs = merger.Process(blobs);
+						
+						var blobFilter = new BlobSizeFilter(true, 2, 2, 100, 100, 0.5);
+                        blobs = blobFilter.Process(blobs);
+
 
                         //var b3 = new BlobDetector3();
                         //b3.DetectBlobs(gsImage);

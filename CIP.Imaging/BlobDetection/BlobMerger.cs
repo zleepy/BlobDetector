@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +10,7 @@ namespace Cip.Imaging.BlobDetection
 {
     public class BlobMerger
     {
-        public Blob CreateMergedBlob(Blob a, Blob b)
+        public Blob Merge(Blob a, Blob b)
         {
             var result = new Blob();
             result.BoundingBox = Rectangle.Union(a.BoundingBox, b.BoundingBox);
@@ -34,10 +34,10 @@ namespace Cip.Imaging.BlobDetection
         {
             int xdiff = sourceLocation.X - destLocation.X;
             int ydiff = sourceLocation.Y - destLocation.Y;
-            int totalDiff = ydiff + xdiff;
+            //int totalDiff = ydiff + xdiff;
 
             for (int y = 0; y < sourceLocation.Height; y++)
-                BitManipulator.And(destination, totalDiff + (destLocation.Width * y), sourceLocation.Width, source, sourceLocation.Width * y);
+                BitManipulator.And(destination, xdiff + (destLocation.Width * (y + ydiff)), sourceLocation.Width, source, sourceLocation.Width * y);
         }
     }
 }

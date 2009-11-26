@@ -75,12 +75,12 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CIP.Imaging\Cip.Imaging.csproj">
+    <ProjectReference Include="..\Cip.Imaging\Cip.Imaging.csproj">
       <Project>{C1FE953A-25B1-4C69-BD99-4647069CF567}</Project>
       <Name>Cip.Imaging</Name>
     </ProjectReference>
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
