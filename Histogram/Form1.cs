@@ -11,6 +11,7 @@ using System.Drawing.Imaging;
 using System.Diagnostics;
 using Cip.Imaging;
 using Cip.Imaging.BlobDetection;
+using Cip.Imaging.Tool;
 
 namespace Histogram
 {
@@ -51,25 +52,47 @@ namespace Histogram
                         UpdateHorizontalHistogram(image);
 
                         //var b = new SimpleBlobDetector();
-                        //blobs = b.DetectBlobs(gsImage);
+                        var b = new BlobDetector(0.6);
+                        blobs = b.DetectBlobs(gsImage);
 
-                        var b2 = new BlobDetector(0.6);
-                        blobs = b2.DetectBlobs(gsImage);
-
-                        //var blobFilter = new BlobSizeFilter(true, 1, 1, 100, 100, 0.5);
-                        //blobs = blobFilter.Process(blobs);
-
-                        var merger = new BlobDistanceMerge(true, 10, new BlobMerger());
+                        var merger = new BlobDistanceMerge(true, 5, new BlobMerger());
                         blobs = merger.Process(blobs);
 						
-						var blobFilter = new BlobSizeFilter(true, 2, 2, 100, 100, 0.5);
+						var blobFilter = new BlobSizeFilter(true, 1, 1, 150, 150, 0.5);
                         blobs = blobFilter.Process(blobs);
 
+                        
+                        // Räkna ut baslinje och andra linjer i texten
+                        // Identifiera boxar som hör till samma rad.
+                        // Identifiera baslinje och andra linjer för raderna.
+                        
+                        // Skapa typ ett histogram över bottnarna på alla boxar och hitta lokal maxima som är innom medelhöjden för alla boxar.
+                        double averageHeight = blobs.Average(box => box.BoundingBox.Height);
+                        
+                        var bottomPositions = blobs
+                            .GroupBy(box => box.BoundingBox.Bottom)
+                            .Select(g => new { Y = g.Key, Count = g.Count() })
+                            .OrderBy(k => k.Y);
 
-                        //var b3 = new BlobDetector3();
-                        //b3.DetectBlobs(gsImage);
-                        //blobs = new List<Blob>(b.DetectBlobs(image));
-                        //}
+                        int floatingSum = 0;
+                        var floatingWindow = new Queue<int>();
+                        var maximas = new Dictionary<int, int>();
+
+                        foreach (var item in bottomPositions)
+                        {
+                            floatingWindow.Enqueue(item.Count);
+
+                            if (floatingWindow.Count > averageHeight)
+                                floatingSum -= floatingWindow.Dequeue();
+
+                            floatingSum += item.Count;
+                        }
+
+                        
+                        //double k = 0;
+                        //double c = 0;
+                        //LinearLeastSquared.Calculate(blobs.Select(x => new PointF((float)x.BoundingBox.X, (float)x.BoundingBox.Bottom)), ref k, ref c);
+
 
                     }
                 }
