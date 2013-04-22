@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Trainer
 {
-    class Arguments
+    public class Arguments
     {
         public bool Help { get; set; }
         public bool Verbose { get; set; }
